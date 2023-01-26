@@ -4,7 +4,7 @@ package matrix_tasks;
 // Если он достиг края доски, то за доску шагать нельзя.
 // Задача посчитать кол-во шагов сделанных муравьем, чтобы обойти всю доску.
 // (при перемещении он оставляет след). Данный процесс симуляции нужно запустить 10 раз и найти среднее кол-во шагов
-
+// Не сделан вообще, не смотреть пока
 import java.util.Random;
 
 public class Ant {
@@ -24,12 +24,13 @@ public class Ant {
             }
         }
     }
-
+    //рандомно устанавливаем муравья
     static void placeAnt(char[][] a) {
         Random random = new Random();
         int m = random.nextInt(0, a.length);
         int n = random.nextInt(0, a[0].length);
         a[m][n] = 'X';
+
     }
 
     static void printMatrix(char[][] a) {
@@ -41,9 +42,14 @@ public class Ant {
         }
         System.out.println();
     }
-
+//проверяем, куда делать первый шаг можно, чтобы сделать первый шаг рандомно
     static void rout(char[][] a) {
-        Random random = new Random();
+        //for (int i = 1; i < a.length; i++) {//сложная проверка получается,
+          //  for (int j = 0; j < a[i].length; j++) {
+                //if (a[i][j] == 'X'){
+
+
+      /*  Random random = new Random();
         boolean flag = true;
         while (flag) {
             int move = random.nextInt(0, 4);
@@ -52,7 +58,7 @@ public class Ant {
             }else if (move == 1){
                 flag = down(a);
             }
-        }
+        }*/
     }
 
 
