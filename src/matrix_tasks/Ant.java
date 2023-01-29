@@ -4,19 +4,36 @@ package matrix_tasks;
 // Если он достиг края доски, то за доску шагать нельзя.
 // Задача посчитать кол-во шагов сделанных муравьем, чтобы обойти всю доску.
 // (при перемещении он оставляет след). Данный процесс симуляции нужно запустить 10 раз и найти среднее кол-во шагов
-// Не сделан вообще, не смотреть пока
+
 import java.util.Random;
+import java.util.Scanner;
 
 public class Ant {
-    public static void main(String[] args) {
-        char[][] a = new char[5][5];
-        fillMatrix(a);
-        placeAnt(a);
-        printMatrix(a);
-        rout(a);
-        printMatrix(a);
-    }
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Укажите количество горизонтальных полей доски ");
+        int m = scanner.nextInt();
+        System.out.println("Укажите количество вертикальных полей доски ");
+        int n = scanner.nextInt();
+        char[][] a = new char[n][m];
+
+
+        int sum = 0;
+        int count = 0;
+        int i = 0;
+        while ( i < 10 ) {
+            fillMatrix(a);
+         count += placeAnt(a);
+         i++;
+            System.out.println("Сделано шагов за этот цикл: " + count);
+            System.out.println("Пройдено циклов " + i) ;
+            sum += count;
+            count = 0;
+        }
+        int result = sum/10;
+        System.out.println("Среднее количество шагов, чтобы упереться в край доски за один цикл: " + result);
+    }
     static void fillMatrix(char[][] a) {
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[i].length; j++) {
@@ -25,12 +42,76 @@ public class Ant {
         }
     }
     //рандомно устанавливаем муравья
-    static void placeAnt(char[][] a) {
+    static int placeAnt(char[][] a) {
+        //установка муравья в рандомную ячейку
         Random random = new Random();
         int m = random.nextInt(0, a.length);
         int n = random.nextInt(0, a[0].length);
         a[m][n] = 'X';
-
+        printMatrix(a);
+      //подсчет сделанных шагов
+        int count = 0;
+        while (true) {
+            int move = random.nextInt(0, 4);
+            if (move == 0) {
+//Вверх
+                System.out.println("up");
+                //проверка, что туда можно ходить
+                if (m - 1 >= 0) {
+                    //то муравей ходит в эту ячейку
+                    a[m - 1][n] = 'X';
+                    a[m][n] = '*';
+                    m = m - 1;
+                    count++;
+                    printMatrix(a);
+                    System.out.println("Выполнено ходов: " + count);
+                }else {
+                    System.out.println("Уперся в стену!");break;}
+            } else if (move == 1) {
+//Вниз
+                System.out.println("down");
+                //проверка, что туда можно ходить
+                if (m + 1 < a.length && m + 1 > 0) {
+                    //то муравей ходит в эту ячейку
+                    a[m + 1][n] = 'X';
+                    a[m][n] = '*';
+                    m = m + 1;
+                    count++;
+                    printMatrix(a);
+                    System.out.println("Выполнено ходов: " + count);
+                }else {
+                    System.out.println("Уперся в стену!");break;}
+            } else if (move == 2) {
+//На право
+                System.out.println("right");
+                //проверка, что туда можно ходить
+                if (n + 1 < a.length && n + 1 > 0) {
+                    //то муравей ходит в эту ячейку
+                    a[m][n + 1] = 'X';
+                    a[m][n] = '*';
+                    n = n + 1;
+                    count++;
+                    printMatrix(a);
+                    System.out.println("Выполнено ходов: " + count);
+                }else {
+                    System.out.println("Уперся в стену!");break;}
+            } else if (move == 3) {
+//На лево
+                System.out.println("left");
+                //проверка, что туда можно ходить
+                if (n - 1 >= 0) {
+                    //то муравей ходит в эту ячейку
+                    a[m][n - 1] = 'X';
+                    a[m][n] = '*';
+                    n = n - 1;
+                    count++;
+                    printMatrix(a);
+                    System.out.println("Выполнено ходов: " + count);
+                }else {
+                    System.out.println("Уперся в стену!");break;}
+            }
+        }
+        return count;
     }
 
     static void printMatrix(char[][] a) {
@@ -41,89 +122,5 @@ public class Ant {
             System.out.println();
         }
         System.out.println();
-    }
-//проверяем, куда делать первый шаг можно, чтобы сделать первый шаг рандомно
-    static void rout(char[][] a) {
-        //for (int i = 1; i < a.length; i++) {//сложная проверка получается,
-          //  for (int j = 0; j < a[i].length; j++) {
-                //if (a[i][j] == 'X'){
-
-
-      /*  Random random = new Random();
-        boolean flag = true;
-        while (flag) {
-            int move = random.nextInt(0, 4);
-            if (move == 0) {
-                flag = up(a);
-            }else if (move == 1){
-                flag = down(a);
-            }
-        }*/
-    }
-
-
-    static boolean up(char[][] a) {
-        System.out.println("up");
-        for (int i = 1; i < a.length; i++) {//если Х стоит в строчке 0, то ходить некуда, значит начнем с 1.
-            for (int j = 0; j < a[i].length; j++) {
-                if (a[i][j] == 'X'){
-                    if (a[i - 1][j] == '.') {
-                        a[i - 1][j] = '*';
-                        return true; //если компилятор прошел в этот иф,
-                        // значит шаг сделан, выход из цикла с положительным результатом
-                    }
-                }
-            }
-        }
-        return false;// если компилятор добрался сюда, значит либо Х не найден (он в нулевой строке), либо нельзя ходить за край
-        //либо уже тут ходили.
-    }
-
-    static boolean down(char[][] a) {
-        System.out.println("down");
-        for (int i = 0; i < a.length-1; i++) { // обход до предпоследней строки, чтобы было куда ходить.
-            for (int j = 0; j < a[i].length; j++) {
-                if (a[i][j] == 'X'){
-                    if (a[i + 1][j] == '.') {
-                        a[i + 1][j] = '*';
-                        return true;//если компилятор прошел в этот иф,
-                        // значит шаг сделан, выход из цикла с положительным результатом
-                    }
-                }
-
-            }
-        }
-        return false;// если компилятор добрался сюда, значит либо Х не найден (он в нулевой строке), либо нельзя ходить за край
-        //либо уже тут ходили.
-    }
-
-    static boolean right(char[][] a) {
-        System.out.println("right");
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < a[i].length-1; j++) {
-                if ( a[i][j] == 'X'){
-                    if (a[i][j+1] == '.') {
-                        a[i][j+1] = '*';
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    static boolean left(char[][] a) {
-        System.out.println("left");
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 1; j < a[i].length; j++) {
-                if (j>0 && a[i][j] == 'X'){
-                    if (a[i][j-1] == '.') {
-                        a[i][j-1] = '*';
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 }

@@ -1,11 +1,14 @@
 package matrix_tasks;
 //https://acmp.ru/index.asp?main=task&id_task=58
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class prettyМatrix {
     public static void main(String[] args) throws FileNotFoundException {
+        // считать данные из файла, не завершено!
+        //Scanner scanner = new Scanner(new File("PrettyMatrix.txt"));
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите количество строк в таблице");
         int n = scanner.nextInt();
@@ -13,12 +16,9 @@ public class prettyМatrix {
         int m = scanner.nextInt();
         System.out.println("Введите симпатичность");
         int s = scanner.nextInt();
-        // Пытаюсь считать данные из файла, не завершено!
-       /* Scanner scanner = new Scanner(new File("PrettyMatrix.txt"));
         int tables = scanner.nextInt();
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-        for (int i = 0; i < tables; i++) {*/
+
+        for (int i = 0; i < tables; i++) {
             int[][] a = new int[n][m];
             fillMatrix(a);
             printMatrix(a);
@@ -26,7 +26,7 @@ public class prettyМatrix {
         boolean x = check2(a, s);
             if (x) System.out.println("YES");
             else System.out.println("NO");
-        //}
+        }
 
 
     }
@@ -38,12 +38,12 @@ public class prettyМatrix {
                 sum += a[i][j];//суммирую все, что там есть
             }
         }
-        if(sum == 0 || sum == (s*s)){//т.к. в ячейках либо нули либо единицы, то сумма одинаковых цифр может быть либо ноль либо s*s
-            return true;//если ответ сошелся, то матрица не симпотичная возврат тру.
+        if(sum == 0 || sum == (s*s)){//т.к. в ячейках либо нули, либо единицы, то сумма одинаковых цифр может быть либо нуль, либо s*s
+            return true;//если ответ сошелся, то матрица не симпатичная, возврат тру.
         }
         return false;// если ответ не сошелся, возврат фальшь и можно принимать сюда следующее число для проверки.
     }
-    //Берет число, берет число симпотичности, передает это все в метод check3 на проверку
+    //Берет число, берет число симпатичности, передает это все в метод check3 на проверку
     static boolean check2(int[][] a, int s){
 
         for (int i = 0; i < a.length-s+1; i++) {

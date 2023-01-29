@@ -1,5 +1,5 @@
 package array_tasks;
-//19.12.2022 затраты по времени на задачу: 3часа
+//19.12.2022
 public class BinarniyPoisk {
     static int findNumber(int[] a, int x){
         int first=0;
