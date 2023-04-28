@@ -1,0 +1,18 @@
+Целочисленный тип данных
+float
+boolean
+int
+char
+3
+Класс для чтение данных с консоли
+Scanner
+Printer
+Console
+Reader
+1
+Функция разбиения строки на части
+Trim
+Substring
+Split
+Strip
+3
