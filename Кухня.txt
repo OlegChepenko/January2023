@@ -1,0 +1,4 @@
+flour 1200
+sugar 1200
+eggs 5
+milk 200
