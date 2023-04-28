@@ -20,20 +20,18 @@ public class Ant {
 
 
         int sum = 0;
-        int count = 0;
-        int i = 0;
-        while ( i < 10 ) {
+        int count;
+       for (int i = 0;i < 10;i++) {
             fillMatrix(a);
-         count += placeAnt(a);
-         i++;
+            count = placeAnt(a);
             System.out.println("Сделано шагов за этот цикл: " + count);
-            System.out.println("Пройдено циклов " + i) ;
+            System.out.println("Пройдено циклов " + (i+1));
             sum += count;
-            count = 0;
         }
-        int result = sum/10;
-        System.out.println("Среднее количество шагов, чтобы упереться в край доски за один цикл: " + result);
+        int result = sum / 10;
+        System.out.println("Муравей совершил в среднем " + result + " шагов");
     }
+
     static void fillMatrix(char[][] a) {
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[i].length; j++) {
@@ -41,78 +39,53 @@ public class Ant {
             }
         }
     }
+
     //рандомно устанавливаем муравья
     static int placeAnt(char[][] a) {
-        //установка муравья в рандомную ячейку
         Random random = new Random();
         int m = random.nextInt(0, a.length);
         int n = random.nextInt(0, a[0].length);
         a[m][n] = 'X';
         printMatrix(a);
-      //подсчет сделанных шагов
+        //подсчет сделанных шагов
         int count = 0;
-        while (true) {
-            int move = random.nextInt(0, 4);
-            if (move == 0) {
-//Вверх
-                System.out.println("up");
-                //проверка, что туда можно ходить
-                if (m - 1 >= 0) {
-                    //то муравей ходит в эту ячейку
-                    a[m - 1][n] = 'X';
-                    a[m][n] = '*';
-                    m = m - 1;
-                    count++;
-                    printMatrix(a);
-                    System.out.println("Выполнено ходов: " + count);
-                }else {
-                    System.out.println("Уперся в стену!");break;}
-            } else if (move == 1) {
-//Вниз
-                System.out.println("down");
-                //проверка, что туда можно ходить
-                if (m + 1 < a.length && m + 1 > 0) {
-                    //то муравей ходит в эту ячейку
-                    a[m + 1][n] = 'X';
-                    a[m][n] = '*';
-                    m = m + 1;
-                    count++;
-                    printMatrix(a);
-                    System.out.println("Выполнено ходов: " + count);
-                }else {
-                    System.out.println("Уперся в стену!");break;}
-            } else if (move == 2) {
-//На право
-                System.out.println("right");
-                //проверка, что туда можно ходить
-                if (n + 1 < a.length && n + 1 > 0) {
-                    //то муравей ходит в эту ячейку
-                    a[m][n + 1] = 'X';
-                    a[m][n] = '*';
-                    n = n + 1;
-                    count++;
-                    printMatrix(a);
-                    System.out.println("Выполнено ходов: " + count);
-                }else {
-                    System.out.println("Уперся в стену!");break;}
-            } else if (move == 3) {
-//На лево
-                System.out.println("left");
-                //проверка, что туда можно ходить
-                if (n - 1 >= 0) {
-                    //то муравей ходит в эту ячейку
-                    a[m][n - 1] = 'X';
-                    a[m][n] = '*';
-                    n = n - 1;
-                    count++;
-                    printMatrix(a);
-                    System.out.println("Выполнено ходов: " + count);
-                }else {
-                    System.out.println("Уперся в стену!");break;}
+        while (!finish(a)) {
+
+            int step = random.nextInt(0, 4);
+            int newM = m;
+            int newN = n;
+            if (step == 0) {
+                newM--;
+
+            } else if (step == 1) {
+                newM++;
+            } else if (step == 2) {
+                newN++;
+            } else if (step == 3) {
+                newN--;
+            }
+            if (newM >= 0 && newN >=0 && newN < a.length && newM < a.length){
+                count++;
+                a[m][n] = '*';
+                m = newM;
+                n = newN;
+                a[m][n] = 'X';
             }
         }
         return count;
     }
+    //проверка, осталась ли еще ячейка, куда не ходил муравей
+    static boolean finish(char[][] a) {
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[i].length; j++) {
+                if (a[i][j] == '.')
+                    return false;
+            }
+        }
+        return true;
+    }
+
+
 
     static void printMatrix(char[][] a) {
         for (int i = 0; i < a.length; i++) {
@@ -124,3 +97,5 @@ public class Ant {
         System.out.println();
     }
 }
+
+
